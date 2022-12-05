@@ -10,7 +10,7 @@ function ArticleDetails() {
   const location = useLocation();
 
   useEffect(() => {
-    console.log("---> ", location.state.article);
+   
     setArticle(location.state.article);
   }, []);
 
