@@ -63,7 +63,7 @@ function Login() {
             Password
           </label>
           <input
-            type="text"
+            type="password"
             class="form-control"
             placeholder="Enter Password"
             value={passwordValue}
