@@ -10,6 +10,7 @@ function Dashboard() {
   const [articles, setArticles] = useState([]);
   const [fullData, setFullData] = useState([]);
   const [hasMore, setHasMore] = useState(true);
+  const [noData, setNoData] = useState(false);
   const [pageIndex, setPageIndex] = useState(0);
 
   const navigate = useNavigate();
@@ -48,6 +49,11 @@ function Dashboard() {
     );
     setArticles(results);
     setQuery(formattedQuery);
+    if (results.length === 0) {
+      setNoData(true);
+    } else {
+      setNoData(false);
+    }
   };
 
   const navigateToDetails = (item) => {
@@ -102,7 +108,13 @@ function Dashboard() {
           dataLength={articles.length}
           next={fetchMoreData}
           hasMore={hasMore}
-          loader={<LoadingSpinner />}
+          loader={
+            noData ? (
+              <div className="error">No data found</div>
+            ) : (
+              <LoadingSpinner />
+            )
+          }
         >
           {articles.map((item, index) => {
             return (
@@ -112,20 +124,42 @@ function Dashboard() {
               >
                 <div class="row">
                   <div class="col-sm-3">
-                    <div className="item-titles">
+                    <div
+                      className="item-titles"
+                      data-toggle="tooltip"
+                      title="Title"
+                    >
                       {item.abstract.substring(0, 100)}...
                     </div>
                   </div>
                   <div class="col-sm-3">
-                    <div className="item-titles">
+                    <div
+                      className="item-titles"
+                      data-toggle="tooltip"
+                      title="Lead paragraph"
+                    >
                       {item.lead_paragraph.substring(0, 100)}...
                     </div>
                   </div>
                   <div class="col-sm-3">
-                    <div className="item-titles"> {item.document_type}</div>
-                    <div className="item-titles"> {item.section_name}</div>
+                    <div
+                      className="item-titles"
+                      data-toggle="tooltip"
+                      title="Type"
+                    >
+                      {" "}
+                      {item.document_type}
+                    </div>
+                    <div
+                      className="item-titles"
+                      data-toggle="tooltip"
+                      title="Secion Name "
+                    >
+                      {" "}
+                      {item.section_name}
+                    </div>
                   </div>
-                  <div class="col-sm-2">
+                  <div class="col-sm-2" data-toggle="tooltip" title="Date">
                     <div className="item-titles align-center">
                       {" "}
                       {item.pub_date.split("T")[0]}
